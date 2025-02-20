@@ -8,32 +8,30 @@ package com.example.testcommon.commom.algorithm.sorts;
 public class BubbleSort {
 
     /**
-     * @description: 冒泡算法
+     * @description: 循环数组，交换数组元素
      * @author: chenkangwen
-     * @date: 2024/8/28
-     * @param: [nums]
+     * @date: 2025/2/7
+     * @param: [arr]
      */
-    public static void bubbleSort(int[] nums) {
-        for (int i = 0; i < nums.length - 1; i++) {
-            for (int j = 0; j < nums.length - i - 1; j++) {
-                swap(nums, j, j + 1);
+    public static void bubbleSort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            for (int j = 0; j < arr.length - i - 1; j++) {
+                swap(arr, j, j + 1);
             }
         }
     }
 
     /**
-     * @description: 交换下标a, b的值;
+     * @description: 交换下标start, end的值;
      * @author: chenkangwen
-     * @date: 2024/11/26
-     * @param: [nums, a, b]
+     * @date: 2025/2/7
+     * @param: [arr, start, end]
      */
-    public static void swap(int[] nums, int start, int end) {
-        if (nums[end] > nums[start]) {
-            int temp = nums[end];
-            nums[end] = nums[start];
-            nums[start] = temp;
+    public static void swap(int[] arr, int start, int end) {
+        if (arr[start] > arr[end]) {
+            int temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
         }
     }
-
-
 }

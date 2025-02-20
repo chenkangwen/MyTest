@@ -1,27 +1,36 @@
 package com.example.testcommon.commom.algorithm.sorts;
 
+/**
+ * @description: 快速排序
+ * @author: chenkangwen
+ * @date: 2025/2/7
+ * @param:
+ */
 public class SelectionSort {
 
-
-    /**
-     * @description:
-     * @author: chenkangwen
-     * @date: 2024/11/27
-     * @param: [nums]
-     */
-    public static void selectionSort(int[] nums) {
-        for (int i = 0; i < nums.length; i++) {
-            int index = i;
-            for (int j = i; j < nums.length; j++) {
-                if (nums[j] < nums[index]) {
-                    index = j;
+    public static void selectionSort(int[] arr) {
+        for (int i = 0; i < arr.length - 1; i++) {
+            int minIndex = i;
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[j] > arr[minIndex]) {
+                    minIndex = j;
                 }
             }
-            int temp = nums[index];
-            nums[index] = nums[i];
-            nums[i] = temp;
+            // 交换arr[i]和arr[minIndex]
+            swap(arr, minIndex, i);
         }
     }
 
 
+    /**
+     * @description: 交换下标start, end的值;
+     * @author: chenkangwen
+     * @date: 2025/2/7
+     * @param: [arr, start, end]
+     */
+    public static void swap(int[] arr, int start, int end) {
+        int temp = arr[start];
+        arr[start] = arr[end];
+        arr[end] = temp;
+    }
 }
