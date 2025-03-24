@@ -44,7 +44,16 @@ public class ListTest {
 
         Stack<String> stack = new Stack<>();
         // 添加元素
-        stack.add("aaa");
+        stack.push("aaa");
+        stack.push("bbb");
+        stack.push("ccc");
+        stack.push("ddd");
+        stack.push("eee");
+        stack.push("fff");
+
+        System.out.println(stack.peek());
+        System.out.println(stack.pop());
+        System.out.println(stack.peek());
 
         // 创建一个 CopyOnWriteArrayList
         List<String> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
