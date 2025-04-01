@@ -1,7 +1,9 @@
 package com.example.testcommon.commom.utils;
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,6 +11,19 @@ public class DateUtil {
 
     private static final SimpleDateFormat formatYMD = new SimpleDateFormat("yyyy-MM-dd");
 
+    public static void main(String[] args) {
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        //当前年份
+        int year = today.getYear();
+        // 获取当前月份
+        int monthValue = today.getMonthValue();
+        //当前年日
+        int dayOfYear = today.getDayOfYear();
+        //当前月日
+        int dayOfMonth = today.getDayOfMonth();
+        System.out.println("当前年份：" + year + "----" + "当前月份：" + monthValue + "----" + "当前日是: " + dayOfMonth);
+    }
 
     public static String formatYMD(Date date) throws ParseException {
         synchronized (formatYMD) {
@@ -17,11 +32,13 @@ public class DateUtil {
     }
 
 
-    public static Date parseYMD(String strDate) throws ParseException {
+    public static Date parseStrToDate(String strDate) throws ParseException {
         synchronized (formatYMD) {
             return formatYMD.parse(strDate);
         }
     }
+
+
     /**
      * @return
      * @Description 根据指定日期, 增加或者减少天数
