@@ -25,7 +25,7 @@ public class DateUtil {
         System.out.println("当前年份：" + year + "----" + "当前月份：" + monthValue + "----" + "当前日是: " + dayOfMonth);
     }
 
-    public static String formatYMD(Date date) throws ParseException {
+    public static String formatDateToStr(Date date) throws ParseException {
         synchronized (formatYMD) {
             return formatYMD.format(date);
         }
@@ -37,7 +37,6 @@ public class DateUtil {
             return formatYMD.parse(strDate);
         }
     }
-
 
     /**
      * @return

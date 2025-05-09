@@ -14,14 +14,15 @@ public class Md5Utils {
 
     public static void main(String[] args) {
         String s = encryptMD5("可口可乐,一瓶三块，三块一瓶");
-        System.out.println(s);
+        String s1 = encryptMD5("可口可乐,一瓶三块，三块一瓶");
+        System.out.println(s.equals(s1));
     }
 
     /**
      * @description: md5加密算法
      * @author: chenkangwen
      * @date: 2024/11/27
-     * @param: [input]
+     * @param: [input]-----------
      */
     public static String encryptMD5(String input) {
         try {
