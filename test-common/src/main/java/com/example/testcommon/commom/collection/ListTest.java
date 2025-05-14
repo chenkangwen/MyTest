@@ -32,16 +32,26 @@ public class ListTest {
     }
 
 
-
     public static void main(String[] args) {
+    }
+
+
+    private static void testVector() {
         LinkedList<String> llt = new LinkedList<>();
         llt.add("hello");
-
+        // 创建一个 CopyOnWriteArrayList
+        List<String> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        // 添加元素
+        copyOnWriteArrayList.add("aaa");
+        //
+        ArrayDeque arrayDeque = new ArrayDeque();
         // 创建一个 Vector
         Vector<String> vector = new Vector<>();
         // 添加元素
         vector.add("aaa");
+    }
 
+    private static void testStack() {
         Stack<String> stack = new Stack<>();
         // 添加元素
         stack.push("aaa");
@@ -50,24 +60,11 @@ public class ListTest {
         stack.push("ddd");
         stack.push("eee");
         stack.push("fff");
-
         System.out.println(stack.peek());
         System.out.println(stack.pop());
         System.out.println(stack.peek());
-
-        // 创建一个 CopyOnWriteArrayList
-        List<String> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
-        // 添加元素
-        copyOnWriteArrayList.add("aaa");
-
-        ArrayDeque arrayDeque = new ArrayDeque();
-
-        listSort(list);
-        for (UserDTO userDTO : list) {
-            System.out.println(JSON.toJSONString(userDTO));
-        }
-        streamlistSort(list);
     }
+
 
     public static List<UserDTO> listSort(List<UserDTO> list) {
         Collections.sort(list, (o1, o2) -> {

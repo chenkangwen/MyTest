@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -41,5 +42,12 @@ public class HashMapTest {
         }
         log.info("map:{}", JSON.toJSONString(map));
     }
+
+
+    public static void testHashTable() {
+        Hashtable<Object, Object> hashtable = new Hashtable<>();
+
+    }
+
 
 }
