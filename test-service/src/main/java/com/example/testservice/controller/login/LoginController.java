@@ -1,13 +1,11 @@
 package com.example.testservice.controller.login;
 
-import com.example.testapi.dto.UserDTO;
+import com.example.testapi.service.UserService;
 import com.example.testapi.vo.MpUserVO;
-import com.example.testcommon.commom.algorithm.snowflake.SnowflakeIdGenerator;
 import com.example.testcommon.commom.eventListener.TwoEvent;
 import com.example.testcommon.entity.Result;
 import com.example.testservice.annotation.LogAnnotation;
 import com.example.testservice.controller.BaseController;
-import com.example.testservice.service.UserService;
 import com.example.testservice.utils.SpringContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

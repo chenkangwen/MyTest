@@ -52,4 +52,9 @@
         limit 1
     </select>
 
+
+    <insert id="insertMpUserDTO">
+
+    </insert>
+
 </mapper>

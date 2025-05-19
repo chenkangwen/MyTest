@@ -12,10 +12,17 @@ import java.security.NoSuchAlgorithmException;
 public class Md5Utils {
 
 
+    private static final String SHA1 = "SHA-1";
+
+    private static final String MD5 = "MD5";
+
+
     public static void main(String[] args) {
         String s = encryptMD5("可口可乐,一瓶三块，三块一瓶");
         String s1 = encryptMD5("可口可乐,一瓶三块，三块一瓶");
+        String s2 = encryptMD5("雪碧,一瓶三块，三块一瓶");
         System.out.println(s.equals(s1));
+        System.out.println(s.equals(s2));
     }
 
     /**
@@ -27,7 +34,7 @@ public class Md5Utils {
     public static String encryptMD5(String input) {
         try {
             // 创建MD5加密对象
-            MessageDigest md = MessageDigest.getInstance("MD5");
+            MessageDigest md = MessageDigest.getInstance(MD5);
             // 执行加密操作
             byte[] messageDigest = md.digest(input.getBytes());
             // 将字节数组转换为16进制字符串

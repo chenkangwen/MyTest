@@ -1,5 +1,9 @@
 package com.example.testcommon.commom.newFeatures;
 
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class NewFeatures {
 
 
@@ -8,10 +12,15 @@ public class NewFeatures {
         //NewCharacter newCharacter = new NewCharacterImpl();
         //newCharacter.test();
 
-       // MyLamda m = y -> System.out.println(1000+y);
-       // m.test1("1111");
+        // MyLamda m = y -> System.out.println(1000+y);
+        // m.test1("1111");
 
+        List<String> labelList = new ArrayList<>();
+        labelList.add("哈哈哈");
 
+        String join = String.join(",", labelList);
+
+        System.out.println(join);
 
     }
 }

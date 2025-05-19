@@ -1,6 +1,7 @@
 package com.example.testservice.dao;
 
 
+import com.example.testapi.dto.MpUserDTO;
 import com.example.testapi.vo.MpUserVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -32,5 +33,14 @@ public interface MpUserMapper {
      * @param: [phone]
      */
     MpUserVO getVOByPhone(@Param("phone") String phone);
+
+
+    /**
+     * @description:
+     * @author: chenkangwen
+     * @date: 2025/5/20
+     * @param: [mpUserDTO]
+     */
+    void insertMpUserDTO(MpUserDTO mpUserDTO);
 
 }

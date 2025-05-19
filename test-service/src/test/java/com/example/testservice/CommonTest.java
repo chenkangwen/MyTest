@@ -21,8 +21,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -40,9 +43,11 @@ import java.util.regex.Pattern;
 @EnableAutoConfiguration
 public class CommonTest {
 
+    public static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
     private static final UserDTO userDTO = new UserDTO();
 
-    private static final String REGEXP = "runoob";
+    private static final String REGEXP = "huawei";
 
     private static final int[] arr = new int[]{19, 80, 95, 24, 78, 98, 10, 70, 100, 30};
 
@@ -55,21 +60,9 @@ public class CommonTest {
     private RestHighLevelClient restHighLevelClient;
 
     public static void main(String[] args) {
-
-        System.out.println("https://img.cdn.zhaoshang800.com/".length());
-        // 取反
-        System.err.println(~Constant.NUMBER_STATUS_ZERO);
-        // 取反
-        System.err.println(~Constant.NUMBER_STATUS_TEN);
-
-        if (Objects.nonNull(args)) {
-            for (int i = 0; i < args.length; i++) {
-                System.err.println(args[i]);
-            }
-        }
-        userDTO.setUserName("测试");
-        userDTO.setAge(18);
-        System.out.println(JSON.toJSONString(userDTO));
+        String s1 = "runoob";
+        String s2 = "runoob";
+        System.out.println("sl== s2 is:" + s1 == s2);
 
     }
 
@@ -104,15 +97,17 @@ public class CommonTest {
 
     @Test
     public void test_3() {
-        String str = "Google runoob taobao runoob";
+        String str = "google taobao jingdong tengxun huawei huawei";
         Pattern pattern = Pattern.compile(REGEXP);
         Matcher matcher = pattern.matcher(str);
 
-        String s = matcher.replaceAll("nonono");
-
-
         System.out.println(matcher.find());
-        System.out.println(s);
+        System.out.println(matcher.matches());
+
+        boolean matches = Pattern.compile("^1[3-9]\\d{9}$").matcher("13812345678").matches();
+        System.out.println(matches);
+
+        String s = matcher.replaceAll("google");
     }
 
 
@@ -155,5 +150,59 @@ public class CommonTest {
         for (int i = 0; i < arr.length; i++) {
             System.out.print(arr[i] + "----");
         }
+    }
+
+
+    /**
+     * 有一个停车场收费逻辑如下
+     * 当前时间到次日凌晨2点00分为一天 每天收费15元
+     * 不满一天的部分按小时收费 每小时收费1元
+     * 周六日收费翻倍
+     **/
+
+
+    @Test
+    public void test_9() throws Exception {
+        String dateStartStr = "2025-06-10 00:30:00";
+        String dateEndStr = "2025-06-17 15:00:00";
+        Date dayStart = sdf.parse(dateStartStr);
+        Date dayEnd = this.getDayEnd(dayStart);
+        BigDecimal timeDifference = this.timeDifference(dayStart, dayEnd);
+        System.out.println(timeDifference);
+
+    }
+
+
+    public BigDecimal timeDifference(Date dayStart, Date dayEnd) {
+        BigDecimal time = new BigDecimal(String.valueOf(dayEnd.getTime() - dayStart.getTime()));
+        BigDecimal bigDecimal = new BigDecimal(1000 * 60 * 60);
+        return time.divide(bigDecimal, 2, RoundingMode.HALF_UP);
+    }
+
+
+    /**
+     * @description:
+     * @author: chenkangwen
+     * @date: 2025/6/17
+     * @param: [dateStr]
+     */
+    public Date getDayEnd(Date dayStart) {
+        Date dateEnd = null;
+        try {
+
+            Calendar instance1 = Calendar.getInstance();
+            instance1.setTime(dayStart);
+
+            Calendar instance2 = Calendar.getInstance();
+            instance2.set(instance1.get(Calendar.YEAR), instance1.get(Calendar.MONTH), instance1.get(Calendar.DATE), 2, 0, 0);
+
+            if (instance1.getTime().after(instance2.getTime())) {
+                instance2.set(Calendar.DAY_OF_MONTH, instance2.get(Calendar.DAY_OF_MONTH) + 1);
+            }
+            dateEnd = instance2.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dateEnd;
     }
 }

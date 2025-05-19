@@ -1,8 +1,8 @@
 package com.example.testservice.service.impl;
 
+import com.example.testapi.service.UserService;
 import com.example.testapi.vo.MpUserVO;
 import com.example.testservice.dao.MpUserMapper;
-import com.example.testservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

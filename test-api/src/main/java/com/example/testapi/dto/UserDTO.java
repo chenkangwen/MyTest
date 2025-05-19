@@ -2,6 +2,8 @@ package com.example.testapi.dto;
 
 import lombok.Data;
 
+import java.util.Date;
+
 /**
  * @Author: chenkangwen
  * @CreateTime: 2024-10-18  09:53
@@ -25,12 +27,21 @@ public class UserDTO extends BaseEntityDTO {
 
     private Integer delFlag;
 
+
+    private Date birthDate;
+
     public UserDTO() {
 
     }
 
     public UserDTO(String userName, Integer age) {
         this.userName = userName;
+        this.age = age;
+    }
+
+    public UserDTO(String userName, Date birthDate, Integer age) {
+        this.userName = userName;
+        this.birthDate = birthDate;
         this.age = age;
     }
 }
