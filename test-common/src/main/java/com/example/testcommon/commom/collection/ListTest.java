@@ -31,7 +31,11 @@ public class ListTest {
     }
 
     public static void main(String[] args) throws Exception {
-        streamlistSort();
+        //streamlistSort();
+        int[] arr = {1, 3, 5, 7, 9};
+        int target = 9;
+        int result = binarySearch(arr, target);
+        System.out.println("索引: " + result); // 输出: 索引: 2
     }
 
     public void testRetainAll() {
@@ -118,4 +122,31 @@ public class ListTest {
         }
         return list;
     }
+
+
+    public static int binarySearch(int[] arr, int target) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        int left = 0;
+        int right = arr.length - 1;
+        while (left <= right) {
+            // 防止整数溢出，等同于 (left + right) / 2
+            int mid = (left + right) / 2;
+
+            if (arr[mid] == target) {
+                // 找到目标值
+                return mid;
+            } else if (arr[mid] < target) {
+                // 目标在右半部分
+                left = mid + 1;
+            } else {
+                // 目标在左半部分
+                right = mid - 1;
+            }
+        }
+        // 未找到
+        return -1;
+    }
+
 }

@@ -9,7 +9,6 @@ import com.example.testcommon.commom.algorithm.sorts.HeapSort;
 import com.example.testcommon.commom.algorithm.sorts.QuickSort;
 import com.example.testcommon.commom.algorithm.sorts.SelectionSort;
 import com.example.testcommon.commom.algorithm.sorts.TopKSort;
-import com.example.testcommon.entity.Constant;
 import com.example.testservice.boot.TestServiceApplication;
 import com.example.testservice.utils.DateUtils;
 import org.elasticsearch.client.RestHighLevelClient;
