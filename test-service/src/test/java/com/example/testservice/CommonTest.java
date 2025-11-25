@@ -23,6 +23,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -171,6 +172,27 @@ public class CommonTest {
         System.out.println(timeDifference);
 
     }
+
+    @Test
+    public void test_10(){
+        BigDecimal num1 = new BigDecimal("5.003");
+        BigDecimal num2 = new BigDecimal("123.4500");
+        BigDecimal num3 = new BigDecimal("0.000");
+
+        DecimalFormat df = new DecimalFormat("0.00");  // 最多保留2位小数，自动丢弃末尾0
+        System.out.println(df.format(num1));  // 输出: 5
+        System.out.println(df.format(num2));  // 输出: 123.45
+        System.out.println(df.format(num3));  // 输出: 0
+
+
+        char ch1 = 88;
+
+        char ch2 = 'A';
+
+
+    }
+
+
 
 
     public BigDecimal timeDifference(Date dayStart, Date dayEnd) {

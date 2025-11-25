@@ -2,7 +2,6 @@ package com.example.testcommon.commom.collection;
 
 import com.alibaba.fastjson.JSON;
 import com.example.testapi.dto.UserDTO;
-import org.apache.commons.codec.binary.Hex;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -19,36 +18,21 @@ import java.util.stream.Collectors;
 
 public class ListTest {
 
-    private static List<UserDTO> list = new ArrayList<>();
+    private static List<UserDTO> stList = new ArrayList<>();
 
     static {
-        list.add(new UserDTO("路飞", 50));
-        list.add(new UserDTO("鸣人", 60));
-        list.add(new UserDTO("哪吒", new Date(1723635752000L), 799));
-        list.add(new UserDTO("韩立", new Date(1755171752000L), 80));
-        list.add(new UserDTO("古月方圆", new Date(1408016552000L), 80));
-        list.add(new UserDTO("萧炎", new Date(1281786152000L), 55));
-        list.add(new UserDTO("林动", new Date(2544090152000L), 55));
+        stList.add(new UserDTO("路飞", 20));
+        stList.add(new UserDTO("鸣人", 25));
+        stList.add(new UserDTO("哪吒", new Date(1763913600000L), 10000));
+        stList.add(new UserDTO("韩立", new Date(1763827200000L), 2000));
+        stList.add(new UserDTO("古月方圆", new Date(1763740800000L), 600));
+        stList.add(new UserDTO("萧炎", new Date(1763654400000L), 30));
+        stList.add(new UserDTO("林动", new Date(1763568000000L), 40));
     }
-
 
     public static void main(String[] args) throws Exception {
-        String input = "48656C6C6F"; // "Hello" 的十六进制表示
-        byte[] bytes = Hex.decodeHex(input.toCharArray()); // 解码为字节数组
-        System.out.println(new String(bytes));
-        System.out.println(Hex.encodeHex(bytes));
-
-
+        streamlistSort();
     }
-
-
-    public void testComparator() {
-        List<UserDTO> list = ListTest.list.stream().sorted(Comparator.comparing(UserDTO::getBirthDate, Comparator.nullsFirst(Date::compareTo)).reversed()).collect(Collectors.toList());
-        for (UserDTO userDTO : list) {
-            System.out.println(JSON.toJSONString(userDTO));
-        }
-    }
-
 
     public void testRetainAll() {
         List<String> listOne = new ArrayList<>();
@@ -78,27 +62,6 @@ public class ListTest {
         vector.add("hello");
     }
 
-    private static void testArrayDeque() {
-        // 双端队列
-        ArrayDeque<String> arrayDeque = new ArrayDeque();
-        arrayDeque.add("hello");
-    }
-
-
-    private static void testLinkedList() {
-        LinkedList<String> llt = new LinkedList<>();
-        // 添加元素
-        llt.add("hello");
-    }
-
-
-    private static void testCopyOnWriteArrayList() {
-        // 创建一个 CopyOnWriteArrayList
-        List<String> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
-        // 添加元素
-        copyOnWriteArrayList.add("hello");
-    }
-
     private static void testStack() {
         Stack<String> stack = new Stack<>();
         // 添加元素
@@ -111,6 +74,27 @@ public class ListTest {
         System.out.println(stack.peek());
         System.out.println(stack.pop());
         System.out.println(stack.peek());
+    }
+
+    private static void testArrayDeque() {
+        // 双端队列
+        ArrayDeque<String> arrayDeque = new ArrayDeque();
+        arrayDeque.add("hello");
+    }
+
+
+    private static void testLinkedList() {
+        LinkedList<String> linkedList = new LinkedList<>();
+        // 添加元素
+        linkedList.add("hello");
+    }
+
+
+    private static void testCopyOnWriteArrayList() {
+        // 创建一个 CopyOnWriteArrayList
+        List<String> copyOnWriteArrayList = new CopyOnWriteArrayList<>();
+        // 添加元素
+        copyOnWriteArrayList.add("hello");
     }
 
 
@@ -127,8 +111,11 @@ public class ListTest {
     }
 
 
-    public static List<UserDTO> streamlistSort(List<UserDTO> list) {
-        list = list.stream().sorted(Comparator.comparing(UserDTO::getAge, Comparator.nullsLast(Integer::compareTo)).reversed()).collect(Collectors.toList());
+    public static List<UserDTO> streamlistSort() {
+        List<UserDTO> list = stList.stream().sorted(Comparator.comparing(UserDTO::getBirthDate, Comparator.nullsFirst(Date::compareTo)).reversed()).collect(Collectors.toList());
+        for (UserDTO userDTO : list) {
+            System.out.println(JSON.toJSONString(userDTO));
+        }
         return list;
     }
 }
