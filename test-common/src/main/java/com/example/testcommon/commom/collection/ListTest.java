@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Stack;
 import java.util.Vector;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -31,11 +32,31 @@ public class ListTest {
     }
 
     public static void main(String[] args) throws Exception {
-        //streamlistSort();
-        int[] arr = {1, 3, 5, 7, 9};
-        int target = 9;
-        int result = binarySearch(arr, target);
-        System.out.println("索引: " + result); // 输出: 索引: 2
+        Optional<String> nonEmptyOptional = Optional.of("Hello");
+        if (nonEmptyOptional.isPresent()) {
+            System.out.println(nonEmptyOptional.get());
+        }
+
+        Optional<String> nullableOptional = Optional.ofNullable(null);
+        if (!nullableOptional.isPresent()) {
+            System.out.println("--------------------------");
+        }
+
+        Optional<String> emptyOptional = Optional.empty();
+        if (!emptyOptional.isPresent()) {
+            System.out.println("--------------------------");
+        }
+
+
+        Optional<String> optionalName = Optional.ofNullable("Alice");
+        String name = optionalName.orElse("Unknown");
+        System.out.println(name);
+
+        String collect = stList.stream().map(UserDTO::getUserName).collect(Collectors.joining(","));
+
+        System.out.println( collect);
+
+
     }
 
     public void testRetainAll() {

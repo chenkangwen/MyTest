@@ -1,9 +1,9 @@
 package com.example.testservice;
 
-import com.alibaba.fastjson.JSON;
 import com.example.testapi.dto.BaseEntityDTO;
 import com.example.testapi.dto.UserDTO;
 import com.example.testapi.es.TestUserEs;
+import com.example.testcommon.commom.algorithm.innerClass.Outter;
 import com.example.testcommon.commom.algorithm.sorts.BubbleSort;
 import com.example.testcommon.commom.algorithm.sorts.HeapSort;
 import com.example.testcommon.commom.algorithm.sorts.QuickSort;
@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -62,7 +61,13 @@ public class CommonTest {
     public static void main(String[] args) {
         String s1 = "runoob";
         String s2 = "runoob";
-        System.out.println("sl== s2 is:" + s1 == s2);
+        System.out.println("s1== s2 is:" + s1 == s2);
+
+        Outter.Inner inner = new Outter.Inner();
+
+        Outter outter = new Outter();
+        Outter.InnerClassFood innerClassFood = outter.new InnerClassFood();
+
 
     }
 
@@ -173,7 +178,7 @@ public class CommonTest {
     }
 
     @Test
-    public void test_10(){
+    public void test_10() {
         BigDecimal num1 = new BigDecimal("5.003");
         BigDecimal num2 = new BigDecimal("123.4500");
         BigDecimal num3 = new BigDecimal("0.000");
@@ -190,8 +195,6 @@ public class CommonTest {
 
 
     }
-
-
 
 
     public BigDecimal timeDifference(Date dayStart, Date dayEnd) {
