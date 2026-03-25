@@ -8,6 +8,8 @@ import com.microsoft.playwright.BrowserType;
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.Playwright;
 import com.microsoft.playwright.options.WaitUntilState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class DouyinHotListCrawler {
+
+    private static final Logger log = LoggerFactory.getLogger(DouyinHotListCrawler.class);
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36";
     private static final String DEFAULT_URL = "https://so-landing.douyin.com/landings/hotlist";
@@ -70,7 +74,7 @@ public class DouyinHotListCrawler {
                 return items;
             }
         } catch (Exception e) {
-            System.err.println("执行 JS 提取失败: " + e.getMessage());
+            log.error("执行 JS 提取失败", e);
         }
         return Collections.emptyList();
     }
@@ -87,7 +91,7 @@ public class DouyinHotListCrawler {
             // 访问页面，等待网络空闲
             page.navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
             // 额外等待动态内容渲染
-            page.waitForTimeout(1500); // 1.5秒
+            page.waitForTimeout(1500); // 1.5 秒
 
             List<String> items = extractHotlistFromDom(page);
             // 若失败，再试一次
@@ -97,8 +101,7 @@ public class DouyinHotListCrawler {
             }
             return items;
         } catch (Exception e) {
-            System.err.println("抓取失败: " + e.getMessage());
-            e.printStackTrace();
+            log.error("抓取失败", e);
             return Collections.emptyList();
         }
     }
@@ -133,11 +136,11 @@ public class DouyinHotListCrawler {
         try {
             // 确保中文正常输出
             String json = JSON.toJSONString(output);
-            System.out.println(json);
+            log.info("热榜数据：{}", json);
         } catch (Exception e) {
-            System.err.println("JSON 序列化失败: " + e.getMessage());
+            log.error("JSON 序列化失败", e);
             // 降级输出
-            System.out.println("{\"source\":\"playwright\",\"count\":" + items.size() + ",\"items\":" + items + "}");
+            log.info("热榜数据（降级）：{\"source\":\"playwright\",\"count\":{},\"items\":{}}", items.size(), items);
         }
     }
 }
