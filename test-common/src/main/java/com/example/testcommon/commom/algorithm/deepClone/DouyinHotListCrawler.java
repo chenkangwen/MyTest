@@ -22,7 +22,18 @@ public class DouyinHotListCrawler {
     private static final Logger log = LoggerFactory.getLogger(DouyinHotListCrawler.class);
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36";
+    
     private static final String DEFAULT_URL = "https://so-landing.douyin.com/landings/hotlist";
+    
+    private static final int MAX_HOT_ITEMS = 50;
+    
+    private static final int MIN_TEXT_LENGTH = 2;
+    
+    private static final int MAX_TEXT_LENGTH = 200;
+    
+    private static final long PAGE_LOAD_WAIT_MS = 1500L;
+    
+    private static final long RETRY_WAIT_MS = 1000L;
 
     /**
      * 在页面上执行 JavaScript，提取热榜条目
@@ -84,63 +95,68 @@ public class DouyinHotListCrawler {
      */
     private static List<String> fetchHotlistPlaywright(String url, boolean headless) {
         try (Playwright playwright = Playwright.create();
-             Browser browser = playwright.chromium().launch(new BrowserType.LaunchOptions().setHeadless(headless));
-             BrowserContext context = browser.newContext(new Browser.NewContextOptions().setUserAgent(USER_AGENT));
+             Browser browser = playwright.chromium()
+                     .launch(new BrowserType.LaunchOptions().setHeadless(headless));
+             BrowserContext context = browser.newContext(
+                     new Browser.NewContextOptions().setUserAgent(USER_AGENT));
              Page page = context.newPage()) {
 
-            // 访问页面，等待网络空闲
             page.navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
-            // 额外等待动态内容渲染
-            page.waitForTimeout(1500); // 1.5 秒
+            
+            page.waitForTimeout(PAGE_LOAD_WAIT_MS);
 
             List<String> items = extractHotlistFromDom(page);
-            // 若失败，再试一次
+            
             if (items.isEmpty()) {
-                page.waitForTimeout(1000);
+                page.waitForTimeout(RETRY_WAIT_MS);
                 items = extractHotlistFromDom(page);
             }
+            
             return items;
         } catch (Exception e) {
-            log.error("抓取失败", e);
+            log.error("抓取热榜失败", e);
             return Collections.emptyList();
         }
     }
 
     public static void main(String[] args) {
-        // 解析命令行参数
+        CrawlConfig config = parseArgs(args);
+
+        List<String> items = fetchHotlistPlaywright(config.url, config.headless);
+
+        String json = JSON.toJSONString(items);
+        log.info("热榜数据：{}", json);
+    }
+
+    /**
+     * 命令行参数配置
+     */
+    private static class CrawlConfig {
         String url = DEFAULT_URL;
         boolean headless = true;
+    }
+
+    /**
+     * 解析命令行参数
+     */
+    private static CrawlConfig parseArgs(String[] args) {
+        CrawlConfig config = new CrawlConfig();
+        
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "--url":
-                    if (i + 1 < args.length) url = args[++i];
+                    if (i + 1 < args.length) {
+                        config.url = args[++i];
+                    }
                     break;
                 case "--no-headless":
-                    headless = false;
+                    config.headless = false;
                     break;
                 default:
-                    // 忽略未知参数
+                    log.debug("忽略未知参数：{}", args[i]);
             }
         }
-
-        // 抓取热榜
-        List<String> items = fetchHotlistPlaywright(url, headless);
-
-        // 构建输出
-        Map<String, Object> output = new LinkedHashMap<>();
-        output.put("source", "playwright");
-        output.put("count", items.size());
-        output.put("items", items);
-
-        // 输出 JSON
-        try {
-            // 确保中文正常输出
-            String json = JSON.toJSONString(output);
-            log.info("热榜数据：{}", json);
-        } catch (Exception e) {
-            log.error("JSON 序列化失败", e);
-            // 降级输出
-            log.info("热榜数据（降级）：{\"source\":\"playwright\",\"count\":{},\"items\":{}}", items.size(), items);
-        }
+        
+        return config;
     }
 }
