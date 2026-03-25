@@ -13,26 +13,24 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DouyinHotListCrawler {
 
     private static final Logger log = LoggerFactory.getLogger(DouyinHotListCrawler.class);
 
     private static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120 Safari/537.36";
-    
+
     private static final String DEFAULT_URL = "https://so-landing.douyin.com/landings/hotlist";
-    
+
     private static final int MAX_HOT_ITEMS = 50;
-    
+
     private static final int MIN_TEXT_LENGTH = 2;
-    
+
     private static final int MAX_TEXT_LENGTH = 200;
-    
+
     private static final long PAGE_LOAD_WAIT_MS = 1500L;
-    
+
     private static final long RETRY_WAIT_MS = 1000L;
 
     /**
@@ -102,16 +100,16 @@ public class DouyinHotListCrawler {
              Page page = context.newPage()) {
 
             page.navigate(url, new Page.NavigateOptions().setWaitUntil(WaitUntilState.NETWORKIDLE));
-            
+
             page.waitForTimeout(PAGE_LOAD_WAIT_MS);
 
             List<String> items = extractHotlistFromDom(page);
-            
+
             if (items.isEmpty()) {
                 page.waitForTimeout(RETRY_WAIT_MS);
                 items = extractHotlistFromDom(page);
             }
-            
+
             return items;
         } catch (Exception e) {
             log.error("抓取热榜失败", e);
@@ -141,7 +139,7 @@ public class DouyinHotListCrawler {
      */
     private static CrawlConfig parseArgs(String[] args) {
         CrawlConfig config = new CrawlConfig();
-        
+
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "--url":
@@ -156,7 +154,7 @@ public class DouyinHotListCrawler {
                     log.debug("忽略未知参数：{}", args[i]);
             }
         }
-        
+
         return config;
     }
 }
