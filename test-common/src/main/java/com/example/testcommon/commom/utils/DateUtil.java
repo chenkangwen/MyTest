@@ -4,6 +4,7 @@ package com.example.testcommon.commom.utils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -23,6 +24,9 @@ public class DateUtil {
         //当前月日
         int dayOfMonth = today.getDayOfMonth();
         System.out.println("当前年份：" + year + "----" + "当前月份：" + monthValue + "----" + "当前日是: " + dayOfMonth);
+
+        String formatted = String.format("%02d", 15);
+        System.out.println("当前月份：" + formatted);
     }
 
     public static String formatDateToStr(Date date) throws ParseException {
