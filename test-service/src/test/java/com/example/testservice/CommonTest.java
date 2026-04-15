@@ -1,14 +1,15 @@
 package com.example.testservice;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.example.testapi.dto.BaseEntityDTO;
 import com.example.testapi.dto.UserDTO;
 import com.example.testapi.es.TestUserEs;
 import com.example.testcommon.commom.algorithm.innerClass.Outter;
-import com.example.testcommon.commom.algorithm.sorts.BubbleSort;
-import com.example.testcommon.commom.algorithm.sorts.HeapSort;
-import com.example.testcommon.commom.algorithm.sorts.QuickSort;
-import com.example.testcommon.commom.algorithm.sorts.SelectionSort;
-import com.example.testcommon.commom.algorithm.sorts.TopKSort;
+import com.example.testcommon.commom.algorithm.sorts.*;
+import com.example.testcommon.commom.utils.HistoryEventToJson;
+import com.example.testcommon.entity.HistoryEvent;
 import com.example.testservice.boot.TestServiceApplication;
 import com.example.testservice.utils.DateUtils;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -19,11 +20,14 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.util.StopWatch;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -229,4 +233,94 @@ public class CommonTest {
         }
         return dateEnd;
     }
+
+    /**
+     * @return
+     * @description: 字符串拼接
+     */
+    public String stringConcatenation(List list) {
+        String join = String.join(",", list);
+        return join;
+    }
+
+    public void getHistoryEventList() throws Exception {
+        List<HistoryEvent> events = HistoryEventToJson.crawlHistoryEvents("https://hao.360.com/histoday/0131.html");
+        // 转换为 JSON
+        JSONArray jsonArray = new JSONArray();
+        for (HistoryEvent event : events) {
+            JSONObject json = new JSONObject();
+            json.put("year", event.getYear());
+            json.put("title", event.getTitle());
+            json.put("content", event.getContent());
+            jsonArray.add(json);
+        }
+        // 美化输出
+        String prettyJson = JSON.toJSONString(jsonArray, true);
+        System.out.println(prettyJson);
+    }
+
+
+    public List<String> getAllDatesOfMonth(int year, int month) {
+        YearMonth yearMonth = YearMonth.of(year, month);
+        LocalDate firstDay = yearMonth.atDay(1);
+        int daysInMonth = yearMonth.lengthOfMonth();
+        List<String> dates = new ArrayList<>(daysInMonth);
+        for (int i = 0; i < daysInMonth; i++) {
+            LocalDate localDate = firstDay.plusDays(i);
+            dates.add(localDate.getMonthValue() + "" + localDate.getDayOfMonth());
+        }
+        return dates;
+    }
+
+    @Test
+    public void stopWatchTest() throws Exception {
+
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("taskA");
+        Thread.sleep(2500);
+        stopWatch.stop();
+
+
+        stopWatch.start("taskB");
+        Thread.sleep(3500);
+        stopWatch.stop();
+
+
+        for (StopWatch.TaskInfo taskInfo : stopWatch.getTaskInfo()) {
+            System.err.println(taskInfo.getTaskName() + ":" + taskInfo.getTimeMillis() + "ms");
+            System.out.println("------------------------------------------------------------");
+        }
+        System.err.println("totalTime:" + stopWatch.getTotalTimeMillis() + "ms");
+        System.out.println("------------------------------------------------------------");
+        // 格式化输出
+        System.err.println(stopWatch.prettyPrint());
+    }
+
+
+    public int binarySearch(int[] arr, int target) {
+        if (arr == null || arr.length == 0) {
+            return -1;
+        }
+        int left = 0;
+        int right = arr.length - 1;
+        while (left <= right) {
+            // 防止整数溢出，等同于 (left + right) / 2
+            int mid = (left + right) / 2;
+
+            if (arr[mid] == target) {
+                // 找到目标值
+                return mid;
+            } else if (arr[mid] < target) {
+                // 目标在右半部分
+                left = mid + 1;
+            } else {
+                // 目标在左半部分
+                right = mid - 1;
+            }
+        }
+        // 未找到
+        return -1;
+    }
+
+
 }

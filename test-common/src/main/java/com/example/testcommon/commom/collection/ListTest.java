@@ -3,17 +3,7 @@ package com.example.testcommon.commom.collection;
 import com.alibaba.fastjson.JSON;
 import com.example.testapi.dto.UserDTO;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Stack;
-import java.util.Vector;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -54,9 +44,7 @@ public class ListTest {
 
         String collect = stList.stream().map(UserDTO::getUserName).collect(Collectors.joining(","));
 
-        System.out.println( collect);
-
-
+        System.out.println(collect);
     }
 
     public void testRetainAll() {
@@ -142,32 +130,6 @@ public class ListTest {
             System.out.println(JSON.toJSONString(userDTO));
         }
         return list;
-    }
-
-
-    public static int binarySearch(int[] arr, int target) {
-        if (arr == null || arr.length == 0) {
-            return -1;
-        }
-        int left = 0;
-        int right = arr.length - 1;
-        while (left <= right) {
-            // 防止整数溢出，等同于 (left + right) / 2
-            int mid = (left + right) / 2;
-
-            if (arr[mid] == target) {
-                // 找到目标值
-                return mid;
-            } else if (arr[mid] < target) {
-                // 目标在右半部分
-                left = mid + 1;
-            } else {
-                // 目标在左半部分
-                right = mid - 1;
-            }
-        }
-        // 未找到
-        return -1;
     }
 
 }
