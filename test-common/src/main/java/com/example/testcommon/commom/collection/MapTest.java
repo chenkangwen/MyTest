@@ -32,6 +32,7 @@ public class MapTest {
             officeNameStr.append("---------------------------------");
             System.out.println(officeNameStr.toString());
         }
+        System.out.println('5'-'0');
     }
 
 

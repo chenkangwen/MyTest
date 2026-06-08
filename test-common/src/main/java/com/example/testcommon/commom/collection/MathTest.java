@@ -1,6 +1,7 @@
 package com.example.testcommon.commom.collection;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * @Author: chenkangwen
@@ -17,9 +18,22 @@ public class MathTest {
 
 
     public static void mathRound() {
-        long roundOne = Math.round(-3.5);
+        long roundOne = Math.round(-3.44);
         long roundTwo = Math.round(3.5);
         log.info("roundOne：{}", roundOne);
         log.info("roundTwo：{}", roundTwo);
+
+
+        Math.abs(123);
+
+        String join = StringUtils.join(123, "元");
+        System.out.println( join);
+
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("哈哈").append(",");
+        stringBuffer.append("嘻嘻").append(",");
+        stringBuffer.append("呵呵").append(",");
+        String s = StringUtils.removeEnd(stringBuffer.toString(), ",");
+        System.out.println(s);
     }
 }

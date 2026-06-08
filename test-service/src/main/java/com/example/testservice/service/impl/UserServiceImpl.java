@@ -12,9 +12,13 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MpUserMapper mpUserMapper;
 
-
     @Override
     public MpUserVO getVOById(Long id) {
         return mpUserMapper.getVOById(id);
+    }
+
+    @Override
+    public MpUserVO getVOByPhone(String phone) {
+        return mpUserMapper.getVOByPhone(phone);
     }
 }

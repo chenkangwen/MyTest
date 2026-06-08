@@ -1,6 +1,5 @@
 package com.example.testservice.algorithm;
 
-import com.alibaba.fastjson.JSON;
 import com.beust.jcommander.internal.Lists;
 import com.example.testservice.boot.TestServiceApplication;
 import org.junit.runner.RunWith;
@@ -8,13 +7,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: chenkangwen
@@ -26,6 +19,12 @@ import java.util.Set;
 @SpringBootTest(classes = TestServiceApplication.class)
 @EnableAutoConfiguration
 public class Solution {
+
+    public static void main(String[] args) {
+        //int i = lengthOfLongestSubstring("abcdaefd");
+        String str = longestPalindrome("abccbb");
+        System.out.println(str);
+    }
 
     /**
      * 把 arr 排序后，最小绝对差只能来自相邻元素（不相邻的元素之差更大）。
@@ -79,13 +78,6 @@ public class Solution {
         return new int[0];
     }
 
-
-    public static void main(String[] args) {
-        int i = lengthOfLongestSubstring("abcdaefd");
-        System.out.println(i);
-    }
-
-
     public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode head = null, tail = null;
         int carry = 0;
@@ -134,6 +126,56 @@ public class Solution {
             ans = Math.max(ans, rk - i);
         }
         return ans;
+    }
+
+    public static String longestPalindrome(String s) {
+        int len = s.length();
+        if (len < 2) {
+            return s;
+        }
+        int maxlen = 1;
+        int begin = 0;
+        boolean[][] dp = new boolean[len][len];
+        // 初始化：所有长度为1的子串都是回文串
+        for (int i = 0; i < len; i++) {
+            dp[i][i] = true;
+        }
+        char[] charArray = s.toCharArray();
+        for (int L = 2; L <= len; L++) {
+            for (int i = 0; i < len; i++) {
+                int j = L + i - 1;
+                if (j >= len) {
+                    break;
+                }
+                if (charArray[i] != charArray[j]) {
+                    dp[i][j] = false;
+                } else {
+                    if (j - i < 3) {
+                        dp[i][j] = true;
+                    } else {
+                        dp[i][j] = dp[i + 1][j - 1];
+                    }
+                }
+                if (dp[i][j] && j - i + 1 > maxlen) {
+                    maxlen = j - i + 1;
+                    begin = i;
+                }
+            }
+        }
+        return s.substring(begin, begin + maxlen);
+    }
+
+
+    public int reverse(int x) {
+        int rev = 0;
+        while (x != 0) {
+            int pop = x % 10;
+            x /= 10;
+            if (rev > Integer.MAX_VALUE / 10 || (rev == Integer.MAX_VALUE / 10 && pop > 7)) return 0;
+            if (rev < Integer.MIN_VALUE / 10 || (rev == Integer.MIN_VALUE / 10 && pop < -8)) return 0;
+            rev = rev * 10 + pop;
+        }
+        return rev;
     }
 
 
