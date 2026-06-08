@@ -17,7 +17,7 @@ public class MathTest {
 
 
     public static void mathRound() {
-        long roundOne = Math.round(-3.5);
+        long roundOne = Math.round(-3.55);
         long roundTwo = Math.round(3.5);
         log.info("roundOne：{}", roundOne);
         log.info("roundTwo：{}", roundTwo);

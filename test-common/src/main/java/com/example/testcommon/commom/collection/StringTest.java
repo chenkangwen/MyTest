@@ -1,5 +1,7 @@
 package com.example.testcommon.commom.collection;
 
+import java.math.BigDecimal;
+
 /**
  * @Author: chenkangwen
  * @CreateTime: 2025-05-09  16:47
@@ -9,10 +11,13 @@ package com.example.testcommon.commom.collection;
 public class StringTest {
 
     public static void main(String[] args) {
-        String str = "dlrow olleh";
-        char[] chars = str.toCharArray();
-        reverseString(chars);
-        System.out.println(new String(chars));
+        String str = "";
+        BigDecimal bd = new BigDecimal("0.0000");
+        // 通过返回值获取修改后的值（String 和 BigDecimal 是不可变对象，Java 是值传递）
+        String newStr = testStr(str);
+        BigDecimal newBd = testBd(bd);
+        System.out.println("str:" + newStr);
+        System.out.println("bd:" + newBd);
     }
 
 
@@ -28,10 +33,12 @@ public class StringTest {
         }
     }
 
-    public static void test() {
-        String str = "hello world";
-        char[] chars = str.toCharArray();
-        System.out.println(new String(chars));
+    public static String testStr(String str) {
+        return "hello world";
+    }
+
+    public static BigDecimal testBd(BigDecimal bd) {
+        return new BigDecimal("123.456");
     }
 
 
